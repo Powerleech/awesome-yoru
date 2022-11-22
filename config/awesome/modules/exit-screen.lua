@@ -4,8 +4,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local helpers = require("helpers")
-local lock_screen = require("modules.lockscreen")
-lock_screen.init()
+local lock_screen_show = require("modules.lockscreen")
+-- lock_screen.init()
 
 --- Minimalist Exit Screen
 --- ~~~~~~~~~~~~~~~~~~~~~~

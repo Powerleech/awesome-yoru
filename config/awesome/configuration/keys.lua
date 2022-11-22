@@ -9,13 +9,47 @@ local playerctl_daemon = require("signal.playerctl")
 local machi = require("modules.layout-machi")
 local helpers = require("helpers")
 local apps = require("configuration.apps")
+local gears = require("gears")
+local lock_screen_show = require("modules.lockscreen")
 
 --- Make key easier to call
 --- ~~~~~~~~~~~~~~~~~~~~~~~
+---@diagnostic disable-next-line: lowercase-global
 mod = "Mod4"
 alt = "Mod1"
+---@diagnostic disable-next-line: lowercase-global
 ctrl = "Control"
+---@diagnostic disable-next-line: lowercase-global
 shift = "Shift"
+
+local rofi_emoji_cmd = "rofi -dpi " .. dpi(80) .. " -show emoji -modi emoji"
+local greenclip_cmd = "rofi -theme solarized -dpi " .. dpi(80) .. " -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}' "
+
+local function togglePicom()
+    awful.spawn.with_shell(
+       'ps cax | grep picom > /dev/null; if [ $? -eq 0 ]; then killall picom; else picom -b; fi'
+    )
+end
+
+local function change_wallpaper()
+  awful.spawn.with_shell("sh setRandomWallpaper.sh")
+  gears.wallpaper.maximized("/home/powerleech/.active-wallpaper/wallpaper.jpg")
+end
+
+local function toggle_titlebar()
+    for s in screen do
+      local clients = s.clients
+      for _, c in pairs(clients) do
+        decorations.cycle(c)
+      end
+    end
+end
+local function toggle_bottom_panel()
+  for s in screen do
+    s.bottom_panel.visible = not s.bottom_panel.visible
+  end
+end
+
 
 --- Global key bindings
 --- ~~~~~~~~~~~~~~~~~~~
@@ -47,6 +81,33 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ mod, shift }, "w", function()
 		awful.spawn(apps.default.web_browser)
 	end, { description = "open web browser", group = "app" }),
+
+  awful.key({ alt }, "z",
+    function ()
+      awful.spawn(greenclip_cmd)
+    end,
+    {description = "clipboard history", group = "app"}
+  ),
+    --  rofi emoji
+  awful.key({ alt }, "e",
+    function ()
+      awful.spawn(rofi_emoji_cmd)
+    end,
+    {description = "emojipicker", group = "app"}
+  ),
+  -- rofi pass
+  awful.key({ alt }, "p",
+    function ()
+      awful.spawn.with_shell("rofi-pass")
+    end,
+    {description = "rofi-pass", group = "app"}
+  ),
+   awful.key({ mod, ctrl }, "w",
+      function()
+        change_wallpaper()
+      end,
+      {description = "change wallpaper", group = "app"}
+    ),
 
 	--- WM
 	--- ~~
@@ -140,6 +201,9 @@ awful.keyboard.append_global_keybindings({
 		bling.module.tabbed.iter()
 	end, { description = "iterate through tabbing group", group = "tabs" }),
 
+    -- toggle picom
+    awful.key({ mod, ctrl }, "p", function()  togglePicom() end,
+            {description = "Toggle Picom on/off", group = "app"}),
 	--- Hotkeys
 	--- ~~~~~~~
 	--- Music player
@@ -199,6 +263,17 @@ awful.keyboard.append_global_keybindings({
 		awful.spawn.easy_async_with_shell(apps.utils.area_screenshot, function() end)
 	end, { description = "take a area screenshot", group = "hotkeys" }),
 
+  -- hide bottom panel
+  awful.key({mod, shift}, "o", function()
+    toggle_bottom_panel()
+  end, { description = "Toggle bottom_panel", group = "layout" }
+  ),
+
+  awful.key({mod, shift}, "z", function()
+    toggle_bottom_panel()
+    toggle_titlebar()
+  end, { description = "Zen mode", group = "hotkeys" }
+  ),
 	--- Lockscreen
 	awful.key({ mod, alt }, "l", function()
 		lock_screen_show()

@@ -7,7 +7,7 @@ local wibox = require("wibox")
 local helpers = require("helpers")
 local gears = require("gears")
 local widgets = require("ui.widgets")
-
+local lock_screen_show = require("modules.lockscreen")
 --- User Profile Widget
 --- ~~~~~~~~~~~~~~~~~~~
 

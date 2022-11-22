@@ -6,15 +6,15 @@ return {
 	--- Default Applications
 	default = {
 		--- Default terminal emulator
-		terminal = "wezterm start --always-new-process",
+		terminal = "terminator",
 		--- Default music client
 		music_player = "wezterm start --class music ncmpcpp",
 		--- Default text editor
-		text_editor = "wezterm start nvim",
+		text_editor = "nvim",
 		--- Default code editor
 		code_editor = "code",
 		--- Default web browser
-		web_browser = "firefox",
+		web_browser = "google-chrome-stable",
 		--- Default file manager
 		file_manager = "nautilus",
 		--- Default network manager

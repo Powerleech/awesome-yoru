@@ -50,13 +50,14 @@ awful.screen.connect_for_each_screen(function(s)
 			wallpaper = wallpaper(s)
 		end
 
+		-- gears.wallpaper.set("#2E2E2E", s, false, nil)
 		gears.wallpaper.maximized(wallpaper, s, false, nil)
 	end
 end)
 
 --- Flash focus
 --- ~~~~~~~~~~~
-bling.module.flash_focus.enable()
+bling.module.flash_focus.disable()
 
 --- Tag preview
 --- ~~~~~~~~~~~
@@ -66,9 +67,9 @@ bling.widget.tag_preview.enable({
 	honor_workarea = true,
 	honor_padding = true,
 	placement_fn = function(c)
-		awful.placement.top(c, {
+		awful.placement.bottom(c, {
 			margins = {
-				top = dpi(60),
+				bottom = dpi(60),
 			},
 		})
 	end,

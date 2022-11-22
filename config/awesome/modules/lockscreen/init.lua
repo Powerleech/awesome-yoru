@@ -1,17 +1,8 @@
-local gfs = require("gears.filesystem")
+local awful = require("awful")
 
-local lock_screen = {}
-
-local config_dir = gfs.get_configuration_dir()
-package.cpath = package.cpath .. ";" .. config_dir .. "modules/lockscreen/lib/?.so;"
-
-lock_screen.init = function()
-	local pam = require("liblua_pam")
-	lock_screen.authenticate = function(password)
-		return pam.auth_current_user(password)
-		--- return password == "awesome"
-	end
-	require("modules.lockscreen.lockscreen")
+local function lock_screen_show()
+  awful.spawn.with_shell("sh i3lock-extra.sh -s -o $HOME/Pictures/lock-overlay.png -b")
+  -- awful.spawn.with_shell("sh i3lock-extra.sh -i $HOME/.active-wallpaper/wallpaper.jpg -o $HOME/Pictures/lock-overlay.png")
 end
 
-return lock_screen
+return lock_screen_show
