@@ -7,8 +7,8 @@ awful.spawn.with_shell("setxkbmap us")
 awful.spawn.with_shell("setxkbmap -option \"ctrl:nocaps\"")
 local function autostart_apps()
 	--- Compositor
-	helpers.run.check_if_running("picom --experimental-backends", nil, function()
-		awful.spawn("picom --experimental-backends --config " .. config_dir .. "configuration/picom.conf", false)
+	helpers.run.check_if_running("picom", nil, function()
+		awful.spawn("picom --config " .. config_dir .. "configuration/picom.conf", false)
 	end)
 	--- Music Server
 	helpers.run.run_once_pgrep("mpd")
