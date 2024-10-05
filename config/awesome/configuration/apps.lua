@@ -6,9 +6,9 @@ return {
 	--- Default Applications
 	default = {
 		--- Default terminal emulator
-		terminal = "terminator",
+		terminal = "kitty",
 		--- Default music client
-		music_player = "wezterm start --class music ncmpcpp",
+		music_player = "kitty -e music ncmpcpp",
 		--- Default text editor
 		text_editor = "nvim",
 		--- Default code editor
@@ -18,7 +18,7 @@ return {
 		--- Default file manager
 		file_manager = "nautilus",
 		--- Default network manager
-		network_manager = "wezterm start nmtui",
+		network_manager = "kitty -e nmtui",
 		--- Default bluetooth manager
 		bluetooth_manager = "blueman-manager",
 		--- Default power manager
